@@ -1,0 +1,28 @@
+<form class="card" [formGroup]="form" (ngSubmit)="submit()">
+  <h2>Enter to Admin Panel</h2>
+  <div class="form-control"
+       [ngClass]="{invalid: form.controls.email.touched && form.controls.email.invalid}"
+  >
+    <label for="email">Email:</label>
+    <input id="email" type="email" formControlName="email">
+    <div class="validation" *ngIf="form.controls.email.touched && form.controls.email.invalid">
+      <small *ngIf="form.controls.email.errors!.email">Enter Valid Email</small>
+      <small *ngIf="form.controls.email.errors!.required">Enter Email</small>
+    </div>
+  </div>
+  <div class="form-control"
+       [ngClass]="{invalid: form.controls.password.touched && form.controls.password.invalid}">
+    <label for="password">Password:</label>
+    <input id="password" type="password" formControlName="password">
+    <div *ngIf="form.controls.password.touched && form.controls.password.invalid" class="validation">
+      <small *ngIf="form.controls.password.errors!.minlength">Password has been min 6 symbols</small>
+      <small *ngIf="form.controls.password.errors!.required">Enter Password</small>
+    </div>
+  </div>
+  <button
+    type="submit"
+    class="btn btn-primary"
+    [disabled]="form.invalid"
+  >Login
+  </button>
+</form>
