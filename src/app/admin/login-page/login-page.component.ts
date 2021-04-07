@@ -12,7 +12,6 @@ export class LoginPageComponent implements OnInit {
   form: FormGroup;
 
   constructor() {
-
   }
 
   ngOnInit(): void {
