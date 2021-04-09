@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {User} from '../shared/interfaces';
-import {AuthService} from '../../shared/services/auth.service';
-import {Router} from '@angular/router';
+import {AuthService} from '../shared/services/auth.service';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 
 @Component({
   selector: 'app-login-page',
@@ -13,15 +13,25 @@ export class LoginPageComponent implements OnInit {
 
   form: FormGroup;
   submitted: boolean = false;
+  message: string;
 
   constructor(
     public auth: AuthService,
     private router: Router,
+    private rout: ActivatedRoute
   ) {}
 
 
 
   ngOnInit(): void {
+
+    this.rout.queryParamMap.subscribe((data: Params) => {
+      if (data.params['loginAgain']) {
+        this.message = 'Please sign in'
+      }
+    })
+
+
     this.form = new FormGroup({
       email: new FormControl(null, [
         Validators.required,
@@ -50,8 +60,8 @@ export class LoginPageComponent implements OnInit {
       this.form.reset();
       this.router.navigate(['/admin', 'dashboard']);
       this.submitted = false;
+    }, () => {
+      this.submitted = false;
     })
-
-
   }
 }

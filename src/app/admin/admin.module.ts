@@ -8,6 +8,8 @@ import { CreatePageComponent } from './create-page/create-page.component';
 import { EditPageComponent } from './edit-page/edit-page.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {SharedModule} from '../shared/shared.module';
+import {AuthService} from './shared/services/auth.service';
+import {AuthGuard} from './shared/services/auth.guard';
 
 @NgModule({
   declarations: [
@@ -28,14 +30,15 @@ import {SharedModule} from '../shared/shared.module';
         children: [
           {path: '', redirectTo: '/admin/login', pathMatch: 'full'}, //redirect to login for /admin
           {path: 'login', component: LoginPageComponent},
-          {path: 'dashboard', component: DashboardPageComponent},
-          {path: 'create', component: CreatePageComponent},
-          {path: 'post/:id/edit', component: EditPageComponent},
+          {path: 'dashboard', component: DashboardPageComponent, canActivate: [AuthGuard]},
+          {path: 'create', component: CreatePageComponent, canActivate: [AuthGuard]},
+          {path: 'post/:id/edit', component: EditPageComponent, canActivate: [AuthGuard]},
         ]
       }
     ])
   ],
   exports: [RouterModule],
+  providers: [AuthService, AuthGuard],
 })
 
 export class AdminModule {

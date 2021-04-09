@@ -1,19 +1,17 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
-import {FbAuthResponse, User} from '../../admin/shared/interfaces';
+import {FbAuthResponse, User} from '../interfaces';
 import {Observable, Subject, throwError} from 'rxjs';
-import {environment} from '../../../environments/environment';
+import {environment} from '../../../../environments/environment';
 import {catchError, tap} from 'rxjs/operators';
 
 @Injectable()
 export class AuthService {
 
-
   constructor(private http: HttpClient) {
   }
 
-  public static error$: Subject<string> = new Subject<string>();
-
+  public error$: Subject<string> = new Subject<string>();
 
   get token(): string {
     const expDate: Date = new Date(localStorage.getItem('fb-token-exp') as string);
@@ -47,12 +45,15 @@ export class AuthService {
     console.log(message);
     switch (message) {
       case 'EMAIL_NOT_FOUND':
+        // @ts-ignore
         this.error$.next('Email not found')
         break
       case 'INVALID_EMAIL':
+        // @ts-ignore
         this.error$.next('Invalid email')
         break
       case 'INVALID_PASSWORD':
+        // @ts-ignore
         this.error$.next('Invalid password')
         break
     }
